@@ -1,10 +1,23 @@
-import argparse
-import os
-import numpy as np
-import gymnasium as gym
-from esp import ESPPopulation
-from visualizations import visualize_network, plot_metric
-from utils import load_network
+def record_landing_gif(network, epoch, video_dir="videos"):
+    import os
+    os.makedirs(video_dir, exist_ok=True)
+    env = gym.make("LunarLanderContinuous-v3", render_mode="rgb_array_list")  # для новых gymnasium
+    obs, _ = env.reset()
+    done = False
+    frames = []
+    while not done:
+        frame = env.render()
+        while isinstance(frame, list) or (isinstance(frame, np.ndarray) and frame.ndim > 3):
+            frame = frame[0]
+        frames.append(frame)
+        action = network.forward(obs)
+        obs, reward, terminated, truncated, _ = env.step(action)
+        done = terminated or truncated
+    env.close()
+    import imageio
+    gif_path = f"{video_dir}/lander_epoch_{epoch+1:04d}.gif"
+    imageio.mimsave(gif_path, [frame for frame in frames], fps=30)
+    print(f"Saved landing gif: {gif_path}")
 
 def train(args):
     env = gym.make('LunarLanderContinuous-v3')
@@ -33,7 +46,11 @@ def train(args):
         # Эволюция
         pop.select(fitness)
         pop.crossover_and_mutate()
-
+        if (epoch + 1) % 50 == 0:
+            net = pop.get_current_network()
+            record_landing_gif(net, epoch)
+    # Сохранить веса
+    save_network(pop.get_best_network(), args.save_weights)
     # Графики
     plot_metric(reward_history, "Mean Reward", os.path.join(args.struct_dir, "reward_curve.png"))
     plot_metric(loss_history, "Loss", os.path.join(args.struct_dir, "loss_curve.png"))
