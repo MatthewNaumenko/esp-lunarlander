@@ -22,6 +22,23 @@ class FeedforwardNetwork:
         else:
             self.weights_hidden_output = weights_hidden_output
 
+    def forward(self, x):
+        """
+        Прямое распространение
+        """
+        h = np.tanh(self.weights_input_hidden @ x)
+        o = np.tanh(self.weights_hidden_output @ h)
+        return o
+
+    def get_weights(self):
+        return {
+            "input_size": self.input_size,
+            "hidden_size": self.hidden_size,
+            "output_size": self.output_size,
+            "weights_input_hidden": self.weights_input_hidden,
+            "weights_hidden_output": self.weights_hidden_output
+        }
+
     @staticmethod
     def from_weights(data):
         return FeedforwardNetwork(
