@@ -63,3 +63,49 @@ def train(args):
     plot_metric(reward_history, "Mean Reward", os.path.join(args.struct_dir, "reward_curve.png"))
     plot_metric(loss_history, "Loss", os.path.join(args.struct_dir, "loss_curve.png"))
     env.close()
+
+def test(args):
+    env = gym.make('LunarLanderContinuous-v3', render_mode='human')
+    net = load_network(args.load_weights)
+    for ep in range(args.test_episodes):
+        obs, _ = env.reset()
+        done = False
+        total_reward = 0
+        while not done:
+            action = net.forward(obs)
+            obs, reward, terminated, truncated, _ = env.step(action)
+            total_reward += reward
+            done = terminated or truncated
+        print(f"Test episode {ep+1}, reward: {total_reward:.2f}")
+    env.close()
+
+def visualize(args):
+    net = load_network(args.load_weights)
+    visualize_network(net, args.outfile)
+    print(f"Network structure saved as {args.outfile}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="ESP for LunarLanderContinuous-v3")
+    parser.add_argument("--train", action="store_true", help="Train ESP")
+    parser.add_argument("--epochs", type=int, default=100)
+    parser.add_argument("--hidden_size", type=int, default=12)
+    parser.add_argument("--subpop_size", type=int, default=20)
+    parser.add_argument("--episodes_per_eval", type=int, default=1)
+    parser.add_argument("--struct_dir", type=str, default="structures")
+    parser.add_argument("--save_weights", type=str, default="model.pkl")
+    parser.add_argument("--load_weights", type=str, default="model.pkl")
+    parser.add_argument("--test", action="store_true", help="Test ESP")
+    parser.add_argument("--test_episodes", type=int, default=5)
+    parser.add_argument("--visualize_structure", action="store_true")
+    parser.add_argument("--epoch", type=int, default=1)
+    parser.add_argument("--outfile", type=str, default="network.png")
+    args = parser.parse_args()
+
+    if args.train:
+        train(args)
+    elif args.test:
+        test(args)
+    elif args.visualize_structure:
+        visualize(args)
+    else:
+        print("No mode specified. Use --train, --test or --visualize_structure.")
