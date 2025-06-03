@@ -9,6 +9,7 @@ __pycache__/
 # Исключаем все .pkl файлы кроме примера
 *.pkl
 !examples/model_example.pkl
+!examples/model.pkl
 
 # Папки с результатами/структурами/графиками/гифками
 structures/
