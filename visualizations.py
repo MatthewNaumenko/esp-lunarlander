@@ -43,3 +43,14 @@ def visualize_network(network, filename):
 
     plt.savefig(filename)
     plt.close()
+
+
+def plot_metric(metric_history, ylabel, filename):
+    plt.figure()
+    sns.lineplot(x=np.arange(len(metric_history)), y=metric_history)
+    plt.xlabel("Epoch")
+    plt.ylabel(ylabel)
+    plt.title(f"{ylabel} over epochs")
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
