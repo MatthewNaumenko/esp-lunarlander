@@ -26,8 +26,8 @@ class FeedforwardNetwork:
         """
         Прямое распространение
         """
-        h = np.tanh(self.weights_input_hidden @ x)
-        o = np.tanh(self.weights_hidden_output @ h)
+        h = np.tanh(self.weights_input_hidden @ x) # Прямое распространение через скрытый слой
+        o = np.tanh(self.weights_hidden_output @ h) # Прямое распространение через выходной слой
         return o
 
     def get_weights(self):

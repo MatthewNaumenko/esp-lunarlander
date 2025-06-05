@@ -1,7 +1,0 @@
-{
-  "input_size": 8,                      # Размер входного слоя (LunarLanderContinuous всегда 8)
-  "hidden_size": 12,                    # Скрытых нейронов (то, что ты задаёшь)
-  "output_size": 2,                     # Размер выходного слоя (LunarLanderContinuous всегда 2)
-  "weights_input_hidden": numpy.ndarray, # numpy-массив весов input → hidden
-  "weights_hidden_output": numpy.ndarray # numpy-массив весов hidden → output
-}
