@@ -20,7 +20,6 @@ python esp_lander.py --test --load_weights model.pkl
 ```bash
 python esp_lander.py --visualize_structure --load_weights model.pkl --outfile net.png
 ```
-- **Файл весов**: `model_example.pkl` (формат **pickle**), пример можно найти в папке **examples** (необходимо для запуска обучения).
 
 ## Результаты
 
