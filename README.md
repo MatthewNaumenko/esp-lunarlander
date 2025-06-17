@@ -23,7 +23,7 @@ python esp_lander.py --visualize_structure --load_weights model.pkl --outfile ne
 
 ## Результаты
 
-- **Обученная модель**: `model.pkl` (формат **pickle**). Для работы с моделью необходимо поместить файл в корен
+- **Обученная модель**: `model.pkl` (формат **pickle**). Для работы с моделью необходимо поместить файл в корень проекта
 
 ![Описание анимации](https://github.com/MatthewNaumenko/esp-lunarlander/blob/main/!Report/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5_lander_epoch_1000.gif)
 
